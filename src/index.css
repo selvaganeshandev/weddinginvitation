@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600&display=swap');
+
+:root {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: #f7e8c6;
+  background: #0b0b0b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  --black: #0b0b0b;
+  --deep-black: #050505;
+  --charcoal: #1a1a1a;
+  --gold: #d4af37;
+  --rich-gold: #b8860b;
+  --ivory: #f7e8c6;
+  --muted-ivory: rgba(247, 232, 198, .63);
+  --line: rgba(212, 175, 55, .32);
+  --serif: 'Cinzel', 'Times New Roman', serif;
+}
+
+* { box-sizing: border-box; }
+html { min-width: 320px; overflow-x: clip; scroll-behavior: smooth; scroll-padding-top: 78px; background: var(--black); }
+body { min-width: 320px; margin: 0; overflow-x: clip; background: var(--black); }
+body, button, input, textarea, select { font-family: 'Cormorant Garamond', Georgia, serif; }
+button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+button { color: inherit; }
+a { color: inherit; }
+::selection { color: var(--black); background: var(--gold); }
+:focus-visible { outline: 1px solid var(--ivory); outline-offset: 4px; }
+#root { min-height: 100vh; isolation: isolate; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
