@@ -54,6 +54,8 @@ function App() {
   const [filmSound, setFilmSound] = useState(false)
   const fillRef = useRef<HTMLVideoElement>(null)
   const [filmEnded, setFilmEnded] = useState(false)
+  // Phones held upright get the vertical edition of the film; everything else keeps the 16:9 film.
+  const [portraitFilm] = useState(() => window.matchMedia('(orientation: portrait) and (max-width: 820px)').matches)
 
   // The film plays once, then rests on its closing frame (couple, date and venue) and invites the tap.
   const FILM_REST_AT = 17.4
@@ -121,7 +123,7 @@ function App() {
       <div className="gold-dust" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ '--i': i, left: `${(i * 37 + 9) % 100}%`, top: `${(i * 23 + 5) % 100}%` } as React.CSSProperties} />)}</div>
 
       <AnimatePresence>
-        {!opened && <motion.section className={filmEnded ? 'opening is-ended' : 'opening'} initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0.4 : 0.6 }} aria-label="Wedding invitation opening" onPointerDown={unmuteFilm} onPointerMove={(event) => {
+        {!opened && <motion.section className={`opening${filmEnded ? ' is-ended' : ''}${portraitFilm ? ' is-portrait-film' : ''}`} initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0.4 : 0.6 }} aria-label="Wedding invitation opening" onPointerDown={unmuteFilm} onPointerMove={(event) => {
           if (event.pointerType !== 'mouse') return
           const { currentTarget: el, clientX, clientY } = event
           el.style.setProperty('--px', (clientX / el.clientWidth - 0.5).toFixed(3))
@@ -129,10 +131,11 @@ function App() {
         }}>
           {/* The film carries the invitation wording; the full frame is always shown over a blurred copy of itself */}
           <div className="opening-scene" aria-hidden="true">
-            <video ref={fillRef} className="opening-film-fill" src="/videos/opening-blur.mp4" autoPlay muted playsInline />
-            <video ref={filmRef} className="opening-film" src="/videos/opening-film.mp4" poster="/videos/opening-poster.jpg" autoPlay muted playsInline preload="auto" onEnded={endFilm} />
+            {!portraitFilm && <video ref={fillRef} className="opening-film-fill" src="/videos/opening-blur.mp4" autoPlay muted playsInline />}
+            <video ref={filmRef} className="opening-film" src={portraitFilm ? '/videos/opening-film-portrait.mp4' : '/videos/opening-film.mp4'} poster={portraitFilm ? '/videos/opening-poster-portrait.jpg' : '/videos/opening-poster.jpg'} autoPlay muted playsInline preload="auto" onEnded={endFilm} />
           </div>
           <h1 className="visually-hidden">Chandru weds Sandhiya: wedding invitation</h1>
+          {filmEnded && portraitFilm && <div className="film-cta-panel" aria-hidden="true" />}
           {filmEnded && <motion.div className="film-cta" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7 }}>
             <p className="eyebrow">YOUR INVITATION AWAITS</p>
             <p className="film-cta-hint">Tap below to open the invitation</p>
