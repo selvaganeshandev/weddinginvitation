@@ -173,9 +173,9 @@ function App() {
         </header>
 
         <main>
-          <section className="temple-hero" id="home">
-            <div className="temple-photo journey-photo" aria-hidden="true"><img src="/images/temple-hero.jpg" alt="" /></div>
-            <div className="temple-shade" />
+          <section className="temple-hero journey-hero" id="home">
+            {/* Bright edition: wording on top, the couple artwork below it (like a printed invitation) */}
+            <div className="journey-backdrop" aria-hidden="true" />
             <motion.div className="hero-copy" initial={reduceMotion ? false : { opacity: 0, y: 28, filter: 'blur(6px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ delay: 1.35, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}>
               <p className="eyebrow">WITH BLESSINGS, LOVE &amp; GRATITUDE</p>
               <OrnamentDivider />
@@ -183,21 +183,38 @@ function App() {
               <p className="hero-description">With blessings, love and the presence<br className="desktop-break" /> of our families, we invite you to celebrate<br className="desktop-break" /> the beginning of our forever.</p>
               <a href="#wedding" className="text-link">SAVE THE DATE <ArrowDown size={14} /></a>
             </motion.div>
+            <motion.video className="journey-couple" autoPlay muted loop playsInline preload="auto" poster="/videos/journey-poster.jpg" aria-label="Chandru and Sandhiya walking hand in hand through a lantern-lit garden" initial={reduceMotion ? false : { opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.6, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}>
+              {/* wide screens: couple on the left, soft garden continuation under the wording */}
+              <source media="(min-width: 900px) and (orientation: landscape)" src="/videos/journey-wide.mp4" />
+              <source src="/videos/journey.mp4" />
+            </motion.video>
             <div className="hero-side-note">A PROMISE OF FOREVER <span>·</span> 15.11.2026</div>
             <div className="scroll-cue"><span /> SCROLL TO EXPLORE</div>
           </section>
 
-          <section className="family-section section-pad" id="wedding">
+          <section className="family-section section-pad has-art" id="wedding">
+            <div className="page-art" aria-hidden="true">
+              {/* only wide screens show this layer, so only they download the wide film */}
+              <video autoPlay muted loop playsInline poster="/videos/wedding-wide-poster.jpg"><source media="(min-width: 900px) and (orientation: landscape)" src="/videos/wedding-wide.mp4" /></video>
+            </div>
+            <div className="page-content">
             <Reveal className="family-heading"><h2>Wedding Invitation,<br /><em><span className="celebrate-line">come to celebrate</span><br />King &amp; Queen.</em></h2><OrnamentDivider /><p className="family-blessing">Seeking the eternal blessings of the late grandparents of the Groom.</p></Reveal>
             <Reveal className="family-couple"><h3>Selvan S. Chandra Sekaran <span>B.E.</span></h3><span className="family-weds">weds</span><h3>Selvi M. Sandhiya <span>B.Sc., M.A.</span></h3></Reveal>
+            <Reveal className="family-photo"><video autoPlay muted loop playsInline poster="/videos/wedding-poster.jpg" aria-label="Chandru and Sandhiya seated together in the decorated wedding mandapam"><source media="not all and (min-width: 900px) and (orientation: landscape)" src="/videos/wedding.mp4" /></video></Reveal>
             <div className="family-lineage"><Reveal className="lineage-card"><span className="eyebrow">SON OF</span><p>Mr. S. Suresh Babu <small>B.A.</small></p><span className="lineage-and">&amp;</span><p>Mrs. S. Umamaheswari <small>M.Com., M.Phil.</small></p></Reveal><Reveal className="lineage-card" delay={.1}><span className="eyebrow">DAUGHTER OF</span><p>Mr. K. Mani</p><span className="lineage-and">&amp;</span><p>Mrs. M. Anusuya</p></Reveal></div>
             <div className="event-panels">
               <Reveal className="reception-panel"><p className="eyebrow">WEDDING</p><h3>Sunday, 15 November 2026</h3><p className="reception-time">9:00 AM onwards</p><OrnamentDivider /><p className="reception-venue"><strong>Shri Senniamman Thiru Koil</strong><br />Senniamman Koil Scheme<br />Block 7, Tondiarpet<br />Chennai – 600 021</p></Reveal>
               <Reveal className="reception-panel" delay={.12}><p className="eyebrow">RECEPTION</p><h3>Monday, 16 November 2026</h3><p className="reception-time">6:30 PM onwards</p><OrnamentDivider /><p className="reception-venue"><strong>Hyath Mahal</strong><br />196, Prakasam Road<br />Asirvadapuram, George Town<br />Tamil Nadu – 600 108</p></Reveal>
             </div>
+            </div>
           </section>
 
-          <section className="message-section section-pad"><Reveal><Flower2 className="message-flower" strokeWidth={.8} /><h2 className="message-title">A Celebration of Love</h2><OrnamentDivider /><p className="section-intro message-text">Your presence, blessings and love will make<br className="desktop-break" /> our special day even more meaningful.</p><Heart className="message-heart" size={18} strokeWidth={1} />
+          <section className="message-section section-pad has-art">
+            <div className="page-art" aria-hidden="true">
+              <video autoPlay muted loop playsInline poster="/videos/reception-wide-poster.jpg"><source media="(min-width: 900px) and (orientation: landscape)" src="/videos/reception-wide.mp4" /></video>
+            </div>
+            <Reveal className="page-content"><Flower2 className="message-flower" strokeWidth={.8} /><h2 className="message-title">A Celebration of Love</h2><OrnamentDivider /><p className="section-intro message-text">Your presence, blessings and love will make<br className="desktop-break" /> our special day even more meaningful.</p><Heart className="message-heart" size={18} strokeWidth={1} />
+            <div className="message-photo"><video autoPlay muted loop playsInline poster="/videos/reception-poster.jpg" aria-label="Chandru and Sandhiya at their reception, welcomed by family under chandeliers and white flowers"><source media="not all and (min-width: 900px) and (orientation: landscape)" src="/videos/reception.mp4" /></video></div>
             <div className="blessing-family">
               <p className="blessing-welcome">We eagerly await your gracious presence with love.</p>
               <div className="blessing-pairs">{blessingPairs.map(([first, second, note]) => <div className="blessing-pair" key={first}><p>{first}</p><span>&amp;</span><p>{second}</p>{note && <small>{note}</small>}</div>)}</div>

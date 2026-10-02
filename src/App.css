@@ -297,3 +297,115 @@
   .blessing-members { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
   .blessing-members span { display: flex; align-items: center; justify-content: center; padding: 6px 6px; font-size: 13px; }
 }
+
+/* ---- Bright edition: warm daylight hero (wording on top, couple artwork below) and lighter sections ---- */
+.temple-hero.journey-hero { display: flex; min-height: 100svh; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 104px; background: linear-gradient(180deg, #fbf1dc 0%, #f6e3bb 55%, #e9c98e 100%); }
+.journey-backdrop { position: absolute; z-index: -2; inset: 0; overflow: hidden; }
+.journey-backdrop img { display: none; }
+.journey-backdrop::after { position: absolute; inset: 0; content: ''; background: radial-gradient(circle at 78% 18%, rgba(255, 226, 150, .75), transparent 32%), radial-gradient(circle at 14% 62%, rgba(255, 214, 140, .45), transparent 30%), radial-gradient(ellipse 70% 50% at 50% 34%, rgba(255, 251, 240, .9), transparent 75%); }
+.journey-hero .hero-copy { margin-top: 0; }
+.journey-hero .hero-copy > .eyebrow { color: #8a5a12; }
+.journey-hero .hero-copy h2 { color: #4a1c0c; text-shadow: 0 1px 0 rgba(255, 255, 255, .5); }
+.journey-hero .hero-copy h2 em { color: #a26a10; }
+.journey-hero .hero-description { color: #5b3a1f; }
+.journey-hero .text-link { color: #8a5a12; }
+.journey-hero .ornament-divider { color: #a26a10; }
+.journey-hero .ornament-divider span { background: linear-gradient(90deg, transparent, #b07a1c, transparent); }
+.journey-couple { display: block; width: min(900px, 94vw); margin-top: auto; padding-top: 14px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent), linear-gradient(180deg, transparent, #000 16%, #000 78%, transparent); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent), linear-gradient(180deg, transparent, #000 16%, #000 78%, transparent); mask-composite: intersect; }
+.journey-hero .hero-side-note { color: #8a5a12; }
+.journey-hero .scroll-cue { display: none; }
+/* The header only sits over the bright hero, so give it a light, warm treatment */
+.site-header { border-bottom-color: rgba(162, 106, 16, .22); background: linear-gradient(180deg, rgba(255, 248, 232, .92), rgba(255, 248, 232, 0)); }
+.site-header .brand-mark, .site-header .header-date { color: #a26a10; }
+.site-header .brand-mark span { color: #c08a2a; }
+.site-header .menu-toggle { color: #8a5a12; }
+@media (min-width: 901px) { .site-header .main-nav a { color: #5b3a1f; } .site-header .main-nav a:hover { color: #a26a10; } }
+@media (max-width: 640px) {
+  .temple-hero.journey-hero { padding-top: 92px; }
+  /* Phones: frame the couple closer so they read at small sizes */
+  .journey-couple { width: 100vw; height: 92vw; object-fit: cover; object-position: 50% 45%; }
+  .journey-hero .hero-side-note { display: none; }
+}
+
+.family-section::before, .message-section::before { opacity: 1; filter: brightness(1) saturate(1.05); }
+.family-section::after { background: radial-gradient(ellipse 48% 40% at 50% 26%, rgba(8, 8, 7, .62), rgba(8, 8, 7, .12) 100%), linear-gradient(180deg, #0b0b0b, transparent 7%, transparent 93%, #0b0b0b); }
+.message-section::after { background: radial-gradient(ellipse 50% 42% at 50% 45%, rgba(8, 8, 7, .55), rgba(8, 8, 7, .12) 100%), linear-gradient(180deg, #0b0b0b, transparent 10%, transparent 90%, #0b0b0b); }
+.family-section h2, .family-section h3, .family-section p, .family-section span, .message-section h2, .message-section p { text-shadow: 0 2px 14px rgba(0, 0, 0, .7), 0 0 2px rgba(0, 0, 0, .5); }
+.family-section .reception-panel, .family-section .lineage-card { background: rgba(10, 8, 5, .66); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+.message-section .blessing-pair, .message-section .blessing-members span { background: rgba(10, 8, 5, .62); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+
+/* ---- Bright edition: second screen (invitation, names, parents, events) ---- */
+.family-section { background: linear-gradient(180deg, #efd3a0 0%, #fbf1dc 14%, #fdf6e8 50%, #f8e8c6 86%, #efd3a0 100%); }
+.family-section::before { background: radial-gradient(circle at 12% 18%, rgba(255, 222, 140, .55), transparent 28%), radial-gradient(circle at 88% 46%, rgba(255, 214, 140, .45), transparent 30%), radial-gradient(circle at 20% 82%, rgba(255, 226, 160, .4), transparent 30%); opacity: 1; filter: none; -webkit-mask-image: none; mask-image: none; }
+.family-section::after { background: none; }
+.family-section h2, .family-section h3, .family-section p, .family-section span { text-shadow: none; }
+.family-section .eyebrow { color: #a26a10; }
+.family-heading h2 { color: #4a1c0c; }
+.family-heading h2 em { color: #a26a10; }
+.family-heading .celebrate-line { color: #5b3a1f; }
+.family-blessing { color: #6b4a2a; }
+.family-section .ornament-divider { color: #a26a10; }
+.family-section .ornament-divider span { background: linear-gradient(90deg, transparent, #b07a1c, transparent); }
+.family-couple { border-top-color: rgba(162, 106, 16, .4); border-bottom-color: rgba(162, 106, 16, .28); }
+.family-couple h3 { color: #4a1c0c; }
+.family-couple h3 span, .family-weds { color: #a26a10; }
+.family-section .reception-panel, .family-section .lineage-card { border-color: rgba(162, 106, 16, .4); background: rgba(255, 252, 244, .78); box-shadow: 0 12px 30px rgba(120, 80, 20, .12); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.lineage-card p, .reception-panel h3, .reception-venue strong { color: #3e2412; }
+.lineage-card p small { color: #7a5a3a; }
+.lineage-and, .reception-time { color: #a26a10; }
+.reception-venue { color: #5b3a1f; }
+/* Phones: the wedding film sits between the names and the parents, framed like a photograph */
+.family-photo { width: min(820px, 100%); margin: 4px auto 40px; padding: 8px; border: 1px solid rgba(162, 106, 16, .38); background: #fffaf0; box-shadow: 0 20px 44px rgba(110, 70, 20, .22); }
+.family-photo img, .family-photo video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+@media (max-width: 640px) { .family-photo { padding: 5px; margin-bottom: 30px; } }
+
+/* ---- Bright edition: last screen (A Celebration of Love, family blessings) and footer ---- */
+.message-section { background: linear-gradient(180deg, #efd3a0 0%, #fbf1dc 12%, #fdf6e8 50%, #f8e8c6 88%, #efd3a0 100%); }
+.message-section::before { background: radial-gradient(circle at 86% 16%, rgba(255, 222, 140, .55), transparent 28%), radial-gradient(circle at 10% 52%, rgba(255, 214, 140, .45), transparent 30%), radial-gradient(circle at 80% 86%, rgba(255, 226, 160, .4), transparent 30%); opacity: 1; filter: none; }
+.message-section::after { background: none; }
+.message-section h2, .message-section p { text-shadow: none; }
+.message-section .message-flower, .message-section .message-heart, .message-section .ornament-divider { color: #a26a10; }
+.message-section .ornament-divider span { background: linear-gradient(90deg, transparent, #b07a1c, transparent); }
+.message-section .message-title { color: #4a1c0c; }
+.message-section .message-text { color: #5b3a1f; }
+.blessing-welcome { color: #a26a10; }
+.message-section .blessing-pair, .message-section .blessing-members span { border-color: rgba(162, 106, 16, .4); background: rgba(255, 252, 244, .8); box-shadow: 0 10px 26px rgba(120, 80, 20, .1); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.blessing-pair p { color: #3e2412; }
+.blessing-pair > span, .blessing-pair small { color: #a26a10; }
+.blessing-members span { color: #4a2c16; }
+/* Phones: the wedding film sits between the message and the family names, framed like a photograph */
+.message-photo { width: min(820px, 100%); margin: 26px auto 30px; padding: 8px; border: 1px solid rgba(162, 106, 16, .38); background: #fffaf0; box-shadow: 0 20px 44px rgba(110, 70, 20, .22); }
+.message-photo img, .message-photo video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+@media (max-width: 640px) { .message-photo { padding: 5px; margin: 20px auto 24px; } }
+.site-footer { border-top-color: rgba(162, 106, 16, .25); background: #efd3a0; }
+.footer-monogram { color: #a26a10; }
+.footer-monogram span { color: #c08a2a; }
+.site-footer > p, .footer-heart { color: #8a5a12; }
+.site-footer > span { color: #6b4a2a; }
+
+/* ---- First screen, wide screens: the couple artwork fills the screen, wording on the right ---- */
+@media (min-width: 900px) and (orientation: landscape) {
+  .temple-hero.journey-hero { justify-content: center; align-items: flex-end; padding: 96px clamp(40px, 6vw, 110px) 40px 0; }
+  .journey-couple { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; object-fit: cover; object-position: 0 50%; -webkit-mask-image: none; mask-image: none; }
+  .journey-hero::before { position: absolute; z-index: -1; inset: 0; content: ''; background: linear-gradient(90deg, transparent 34%, rgba(255, 248, 232, .55) 52%, rgba(255, 248, 232, .88) 66%, rgba(255, 248, 232, .94)), linear-gradient(180deg, rgba(255, 248, 232, .7), transparent 16%); }
+  .journey-hero .hero-copy { width: min(560px, 40vw); }
+  .journey-hero .hero-copy h2 { font-size: clamp(30px, 3.4vw, 50px); }
+  .journey-hero .hero-side-note { display: none; }
+}
+
+/* ---- Screens 2 and 3 follow the first screen: full-screen artwork, wording in a right-hand column ---- */
+.has-art > .page-art { display: none; }
+@media (min-width: 900px) and (orientation: landscape) {
+  .family-section.has-art, .message-section.has-art { display: grid; min-height: 100svh; padding: 0; place-items: stretch; overflow: clip; } /* clip, not hidden, so the artwork can stay pinned */
+  /* the artwork stays on screen while the right-hand column scrolls past it */
+  .has-art > .page-art { position: sticky; z-index: 0; top: 0; display: block; grid-area: 1 / 1; align-self: start; width: 100%; height: 100svh; overflow: hidden; }
+  .has-art > .page-art img, .has-art > .page-art video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 0 50%; }
+  .has-art > .page-art::after { position: absolute; inset: 0; content: ''; background: linear-gradient(90deg, transparent 34%, rgba(255, 248, 232, .55) 52%, rgba(255, 248, 232, .88) 66%, rgba(255, 248, 232, .94)), linear-gradient(180deg, rgba(251, 241, 220, .85), transparent 14%, transparent 86%, rgba(251, 241, 220, .85)); }
+  .has-art > .page-content { position: relative; z-index: 1; grid-area: 1 / 1; justify-self: end; align-self: center; width: min(600px, 42vw); margin-right: clamp(40px, 6vw, 110px); padding: 112px 0 96px; text-align: center; }
+  .has-art .family-photo, .has-art .message-photo { display: none; }
+  .has-art .family-couple, .has-art .family-lineage, .has-art .event-panels { width: 100%; }
+  .has-art .event-panels { grid-template-columns: 1fr; gap: 14px; margin-top: 26px; }
+  .has-art .event-panels .reception-panel { padding: 20px 24px; }
+  .has-art .blessing-pairs { grid-template-columns: 1fr; gap: 10px; }
+  .has-art .family-heading h2 { font-size: clamp(28px, 3vw, 44px); }
+}
