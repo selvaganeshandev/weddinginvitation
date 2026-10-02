@@ -10,6 +10,42 @@
 @keyframes opening-temple-zoom { from { scale: 1; } to { scale: 1.06; } }
 .opening-event { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
 @media (prefers-reduced-motion: reduce) { .opening-temple { animation: none; transform: none; transition: none; } }
+/* Opening invitation film: full frame always visible (contain), blurred copy fills any spare space */
+.opening:has(.opening-film)::before, .opening:has(.opening-film)::after, .opening-scene:has(.opening-film)::after { display: none; }
+.opening-film-fill { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); object-fit: cover; filter: blur(24px) brightness(.68) saturate(1.05); }
+.opening-film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.opening .opening-button { position: absolute; right: clamp(24px, 4vw, 56px); bottom: clamp(24px, 5vh, 48px); margin: 0; background: rgba(8, 8, 7, .55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.film-sound { position: absolute; left: clamp(24px, 4vw, 56px); bottom: clamp(24px, 5vh, 48px); display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid rgba(212, 175, 55, .45); border-radius: 999px; background: rgba(8, 8, 7, .55); color: var(--gold); font: 500 10px/1 var(--serif); letter-spacing: .2em; cursor: pointer; animation: sound-pulse 2.4s ease-in-out infinite; }
+@keyframes sound-pulse { 50% { box-shadow: 0 0 18px rgba(212, 175, 55, .35); } }
+@media (max-width: 640px) and (orientation: portrait) {
+  .opening .opening-button { right: 0; left: 0; bottom: max(64px, 12vh); width: fit-content; margin: 0 auto; white-space: nowrap; }
+  .film-sound { left: 50%; bottom: auto; top: max(48px, 12vh); transform: translateX(-50%); }
+  .opening-film { top: 50%; height: auto; aspect-ratio: 16 / 9; transform: translateY(-50%); -webkit-mask-image: linear-gradient(transparent, #000 9%, #000 91%, transparent); mask-image: linear-gradient(transparent, #000 9%, #000 91%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .film-sound { animation: none; } }
+/* After the film: rest on the closing frame, dim it and bring the Open Invitation call to the centre */
+.opening-film, .opening-film-fill { transition: filter 1s ease; }
+.opening.is-ended .opening-film { filter: brightness(.42) saturate(.9); }
+.opening.is-ended .opening-film-fill { filter: blur(24px) brightness(.4) saturate(.9); }
+.film-cta { position: absolute; top: calc(50% - 92px); left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 20px; text-align: center; pointer-events: none; }
+.film-cta .eyebrow { font-size: 12px; letter-spacing: .32em; }
+.film-cta-hint { margin: 0; color: var(--ivory); font: italic 400 clamp(22px, 3vw, 32px)/1.3 'Cormorant Garamond', Georgia, serif; text-shadow: 0 2px 18px rgba(0, 0, 0, .6); }
+.opening.is-ended .opening-button { top: calc(50% + 6px); right: 0; bottom: auto; left: 0; width: fit-content; margin: 0 auto; padding-inline: 34px; background: rgba(8, 8, 7, .7); animation: cta-glow 2.2s ease-in-out infinite; }
+@keyframes cta-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, .45); } 50% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0), 0 0 28px rgba(212, 175, 55, .35); } }
+.film-replay { position: absolute; top: calc(50% + 84px); left: 0; right: 0; width: fit-content; margin: 0 auto; padding: 6px 10px; border: 0; background: none; color: rgba(246, 236, 214, .7); font: 500 10px/1 var(--serif); letter-spacing: .24em; text-decoration: underline; text-underline-offset: 5px; cursor: pointer; }
+.film-replay:hover { color: var(--gold); }
+@media (prefers-reduced-motion: reduce) { .opening.is-ended .opening-button { animation: none; } }
+/* Phones: the film sits in a 16:9 band, so the call to action goes in the space below it */
+@media (max-width: 640px) and (orientation: portrait) {
+  .opening { --film-bottom: calc(50% + 28.125vw); }
+  .opening.is-ended .opening-film { filter: brightness(.85); }
+  .film-cta { top: calc(var(--film-bottom) + 22px); gap: 6px; }
+  .film-cta .eyebrow { font-size: 10px; }
+  .film-cta-hint { font-size: 21px; }
+  .opening.is-ended .opening-button { top: calc(var(--film-bottom) + 108px); }
+  .film-replay { top: calc(var(--film-bottom) + 172px); }
+}
 .opening::before, .opening::after { position: absolute; left: 50%; width: min(490px, 78vw); height: 1px; content: ''; background: linear-gradient(90deg, transparent, rgba(212, 175, 55, .56), transparent); transform: translateX(-50%); }
 .opening::before { top: 11%; } .opening::after { bottom: 11%; }
 .opening-frame { position: absolute; inset: 19px; border: 1px solid rgba(212, 175, 55, .18); pointer-events: none; }
@@ -183,16 +219,16 @@
   .opening-button { min-height: 33px; margin-top: 6px; }
   .opening-footnote { margin-top: 5px; }
 }
-.temple-photo.journey-photo > img { object-position: 50% 68%; opacity: .78; filter: none; animation: journey-drift 28s ease-in-out infinite alternate; }
+.temple-photo.journey-photo > img { object-position: 50% 60%; opacity: .78; filter: brightness(.8) saturate(.92); animation: journey-drift 28s ease-in-out infinite alternate; }
 @keyframes journey-drift { from { transform: scale(1); } to { transform: scale(1.05); } }
 .temple-hero:has(.journey-photo) .temple-shade { background: radial-gradient(ellipse 60% 48% at 50% 50%, rgba(5, 5, 5, .62), rgba(5, 5, 5, .3) 100%), linear-gradient(180deg, rgba(5, 5, 5, .6), rgba(5, 5, 5, .1) 30%, rgba(5, 5, 5, .15) 65%, rgba(5, 5, 5, .8)); }
 @media (prefers-reduced-motion: reduce) { .temple-photo.journey-photo > img { animation: none; } }
 .family-section { isolation: isolate; }
-.family-section::before { position: absolute; inset: 0; z-index: -2; content: ''; background: url('/images/family-bg.jpg') 50% 0 / cover no-repeat; opacity: .72; -webkit-mask-image: linear-gradient(180deg, #000 88%, rgba(0, 0, 0, .25)); mask-image: linear-gradient(180deg, #000 88%, rgba(0, 0, 0, .25)); }
+.family-section::before { position: absolute; inset: 0; z-index: -2; content: ''; background: url('/images/temple-family.jpg') 50% 30% / cover no-repeat; opacity: .8; filter: brightness(.74) saturate(.92); -webkit-mask-image: linear-gradient(180deg, #000 88%, rgba(0, 0, 0, .25)); mask-image: linear-gradient(180deg, #000 88%, rgba(0, 0, 0, .25)); }
 .family-section::after { position: absolute; inset: 0; z-index: -1; content: ''; background: radial-gradient(ellipse 60% 45% at 50% 30%, rgba(8, 8, 7, .6), rgba(8, 8, 7, .25) 100%), linear-gradient(180deg, #0b0b0b, rgba(11, 11, 11, .3) 10%, rgba(11, 11, 11, .45) 82%, #0b0b0b); }
 .family-section .reception-panel { background: linear-gradient(140deg, rgba(20, 16, 8, .7), rgba(8, 8, 7, .58)); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 .message-section { isolation: isolate; }
-.message-section::before { position: absolute; inset: 0; z-index: -2; content: ''; background: url('/images/temple-opening.jpg') 57% 35% / cover no-repeat; opacity: .75; }
+.message-section::before { position: absolute; inset: 0; z-index: -2; content: ''; background: url('/images/temple-message.jpg') 50% 40% / cover no-repeat; opacity: .8; filter: brightness(.74) saturate(.92); }
 .message-section::after { position: absolute; inset: 0; z-index: -1; content: ''; background: radial-gradient(ellipse 55% 60% at 50% 50%, rgba(8, 8, 7, .66), rgba(8, 8, 7, .4) 100%), linear-gradient(180deg, #0b0b0b, rgba(11, 11, 11, .3) 22%, rgba(11, 11, 11, .35) 75%, #0b0b0b); }
 .gate { position: fixed; inset: 0; z-index: 19; overflow: hidden; perspective: 1800px; pointer-events: none; }
 .gate-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 30% 60% at 50% 50%, rgba(247, 222, 160, .55), rgba(212, 175, 55, .18) 45%, transparent 75%); }

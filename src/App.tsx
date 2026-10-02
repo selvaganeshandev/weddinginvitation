@@ -50,6 +50,30 @@ function App() {
   const [muted, setMuted] = useState(false)
   const [musicMessage, setMusicMessage] = useState('')
   const audioRef = useRef<HTMLAudioElement>(null)
+  const filmRef = useRef<HTMLVideoElement>(null)
+  const [filmSound, setFilmSound] = useState(false)
+  const fillRef = useRef<HTMLVideoElement>(null)
+  const [filmEnded, setFilmEnded] = useState(false)
+
+  // The film plays once, then rests on its closing frame (couple, date and venue) and invites the tap.
+  const FILM_REST_AT = 17.4
+  const endFilm = () => {
+    for (const v of [filmRef.current, fillRef.current]) if (v) { v.pause(); v.currentTime = FILM_REST_AT }
+    setFilmEnded(true)
+  }
+  const replayFilm = () => {
+    setFilmEnded(false)
+    for (const v of [filmRef.current, fillRef.current]) if (v) { v.currentTime = 0; v.play().catch(() => {}) }
+  }
+
+  // Browsers only autoplay muted video; the visitor's first tap turns the film's music on.
+  const unmuteFilm = () => {
+    const film = filmRef.current
+    if (!film || filmSound) return
+    film.muted = false
+    film.volume = 0.7
+    film.play().then(() => setFilmSound(true)).catch(() => { film.muted = true })
+  }
 
   useEffect(() => {
     if (!opened) return
@@ -75,6 +99,15 @@ function App() {
     }
   }
 
+  // The "Open invitation" tap is the user gesture browsers require before audio can play.
+  const startMusic = () => {
+    const audio = audioRef.current
+    if (!audio || musicPlaying) return
+    audio.muted = muted
+    audio.volume = 0.7
+    audio.play().then(() => setMusicPlaying(true)).catch(() => {})
+  }
+
   const toggleMute = () => {
     const nextMuted = !muted
     setMuted(nextMuted)
@@ -88,29 +121,27 @@ function App() {
       <div className="gold-dust" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ '--i': i, left: `${(i * 37 + 9) % 100}%`, top: `${(i * 23 + 5) % 100}%` } as React.CSSProperties} />)}</div>
 
       <AnimatePresence>
-        {!opened && <motion.section className="opening" initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0.4 : 0.6 }} aria-label="Wedding invitation opening" onPointerMove={(event) => {
+        {!opened && <motion.section className={filmEnded ? 'opening is-ended' : 'opening'} initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0.4 : 0.6 }} aria-label="Wedding invitation opening" onPointerDown={unmuteFilm} onPointerMove={(event) => {
           if (event.pointerType !== 'mouse') return
           const { currentTarget: el, clientX, clientY } = event
           el.style.setProperty('--px', (clientX / el.clientWidth - 0.5).toFixed(3))
           el.style.setProperty('--py', (clientY / el.clientHeight - 0.5).toFixed(3))
         }}>
-          <div className="opening-scene" aria-hidden="true"><div className="opening-temple" /></div>
-          <div className="opening-frame" aria-hidden="true"><span /><span /><span /><span /></div>
-          <div className="opening-ornament" aria-hidden="true"><Flower2 size={30} strokeWidth={0.8} /><i /><Flower2 size={18} strokeWidth={0.8} /></div>
-          <motion.p className="eyebrow opening-eyebrow" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .4 }}>WEDDING INVITATION · COME TO CELEBRATE</motion.p>
-          <motion.div className="opening-names" initial={{ opacity: 0, y: 26, filter: 'blur(8px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ delay: .8, duration: 1.1 }}>
-            <span className="royal-title">KING &amp; QUEEN</span><h1>CHANDRU</h1><span className="ampersand">weds</span><h1>SANDHIYA</h1>
-          </motion.div>
-          <motion.p className="opening-subtitle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.45 }}>With the eternal blessings of the late grandparents of the Groom.</motion.p>
-          <motion.div className="opening-events" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.7 }}>
-            <article className="opening-event"><p className="eyebrow">THE WEDDING</p><h2>SUNDAY · 15 NOVEMBER 2026</h2><p className="opening-event-time">9:00 AM ONWARDS</p><OrnamentDivider /><p className="opening-venue">Shri Senniamman Thiru Koil<br />Senniamman Koil Scheme, Block 7, Tondiarpet<br />Chennai – 600 021</p></article>
-            <article className="opening-event"><p className="eyebrow">THE RECEPTION</p><h2>MONDAY · 16 NOVEMBER 2026</h2><p className="opening-event-time">6:30 PM ONWARDS</p><OrnamentDivider /><p className="opening-venue">Hyath Mahal<br />196, Prakasam Road, Asirvadapuram, George Town<br />Tamil Nadu – 600 108</p></article>
-          </motion.div>
-          <motion.p className="opening-closing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.9 }}>We eagerly await your gracious presence with love.</motion.p>
-          <motion.button className="gold-button opening-button" type="button" onClick={() => { setGateVisible(!reduceMotion); setOpened(true); window.scrollTo(0, 0) }} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2 }}>
+          {/* The film carries the invitation wording; the full frame is always shown over a blurred copy of itself */}
+          <div className="opening-scene" aria-hidden="true">
+            <video ref={fillRef} className="opening-film-fill" src="/videos/opening-blur.mp4" autoPlay muted playsInline />
+            <video ref={filmRef} className="opening-film" src="/videos/opening-film.mp4" poster="/videos/opening-poster.jpg" autoPlay muted playsInline preload="auto" onEnded={endFilm} />
+          </div>
+          <h1 className="visually-hidden">Chandru weds Sandhiya: wedding invitation</h1>
+          {filmEnded && <motion.div className="film-cta" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7 }}>
+            <p className="eyebrow">YOUR INVITATION AWAITS</p>
+            <p className="film-cta-hint">Tap below to open the invitation</p>
+          </motion.div>}
+          {filmEnded && <button className="film-replay" type="button" onClick={replayFilm}>WATCH AGAIN</button>}
+          {!filmSound && !filmEnded && <button className="film-sound" type="button" onClick={unmuteFilm}><Volume2 size={15} strokeWidth={1.5} /> TAP FOR SOUND</button>}
+          <motion.button className="gold-button opening-button" type="button" onClick={() => { setGateVisible(!reduceMotion); setOpened(true); window.scrollTo(0, 0); startMusic() }} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }}>
             OPEN INVITATION <ArrowDown size={15} strokeWidth={1.5} />
           </motion.button>
-          <p className="opening-footnote">WITH THE BLESSINGS OF OUR BELOVED PARENTS</p>
         </motion.section>}
       </AnimatePresence>
 
@@ -140,7 +171,7 @@ function App() {
 
         <main>
           <section className="temple-hero" id="home">
-            <div className="temple-photo journey-photo" aria-hidden="true"><img src="/images/journey-bg.jpg" alt="" /></div>
+            <div className="temple-photo journey-photo" aria-hidden="true"><img src="/images/temple-hero.jpg" alt="" /></div>
             <div className="temple-shade" />
             <motion.div className="hero-copy" initial={reduceMotion ? false : { opacity: 0, y: 28, filter: 'blur(6px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ delay: 1.35, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}>
               <p className="eyebrow">WITH BLESSINGS, LOVE &amp; GRATITUDE</p>
