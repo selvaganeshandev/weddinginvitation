@@ -50,6 +50,10 @@ function App() {
   const [muted, setMuted] = useState(false)
   const [musicMessage, setMusicMessage] = useState('')
   const audioRef = useRef<HTMLAudioElement>(null)
+  const nadaRef = useRef<HTMLAudioElement>(null)
+  // The reception screen has its own nadaswaram track; the site theme plays everywhere else.
+  const [atReception, setAtReception] = useState(false)
+  const fades = useRef(new Map<HTMLAudioElement, number>())
   const filmRef = useRef<HTMLVideoElement>(null)
   const [filmSound, setFilmSound] = useState(false)
   const fillRef = useRef<HTMLVideoElement>(null)
@@ -83,21 +87,57 @@ function App() {
     return () => document.body.classList.remove('invitation-open')
   }, [opened])
 
+  const MUSIC_VOLUME = 0.7
+  const activeTrack = () => (atReception ? nadaRef.current : audioRef.current)
+
+  const fadeTo = (audio: HTMLAudioElement, target: number, ms = 1200) => {
+    cancelAnimationFrame(fades.current.get(audio) ?? 0)
+    const from = audio.volume, start = performance.now()
+    const step = (now: number) => {
+      const k = Math.min(1, (now - start) / ms)
+      audio.volume = from + (target - from) * k
+      if (k < 1) fades.current.set(audio, requestAnimationFrame(step))
+      else if (target === 0) audio.pause()
+    }
+    fades.current.set(audio, requestAnimationFrame(step))
+  }
+
+  useEffect(() => {
+    if (!opened) return
+    const section = document.querySelector('.message-section')
+    if (!section) return
+    const io = new IntersectionObserver(([entry]) => setAtReception(entry.isIntersecting), { threshold: 0.3 })
+    io.observe(section)
+    return () => io.disconnect()
+  }, [opened])
+
+  // Crossfade between the theme and the nadaswaram as guests move to and from the reception screen.
+  useEffect(() => {
+    const theme = audioRef.current, nada = nadaRef.current
+    if (!theme || !nada || !musicPlaying) return
+    const [on, off] = atReception ? [nada, theme] : [theme, nada]
+    if (!off.paused) fadeTo(off, 0)
+    on.muted = muted
+    if (on.paused) { on.volume = 0; on.play().catch(() => {}) }
+    fadeTo(on, MUSIC_VOLUME)
+  }, [atReception, musicPlaying, muted])
+
   const toggleMusic = async () => {
-    const audio = audioRef.current
+    const audio = activeTrack()
     if (!audio) return
     audio.muted = muted
     setMusicMessage('')
     if (musicPlaying) {
-      audio.pause()
+      for (const a of [audioRef.current, nadaRef.current]) if (a) { cancelAnimationFrame(fades.current.get(a) ?? 0); a.pause() }
       setMusicPlaying(false)
       return
     }
     try {
+      audio.volume = MUSIC_VOLUME
       await audio.play()
       setMusicPlaying(true)
     } catch {
-      setMusicMessage('Add your music track at public/music/wedding-theme.mp3')
+      setMusicMessage('Tap again to play the music')
     }
   }
 
@@ -106,19 +146,20 @@ function App() {
     const audio = audioRef.current
     if (!audio || musicPlaying) return
     audio.muted = muted
-    audio.volume = 0.7
+    audio.volume = MUSIC_VOLUME
     audio.play().then(() => setMusicPlaying(true)).catch(() => {})
   }
 
   const toggleMute = () => {
     const nextMuted = !muted
     setMuted(nextMuted)
-    if (audioRef.current) audioRef.current.muted = nextMuted
+    for (const a of [audioRef.current, nadaRef.current]) if (a) a.muted = nextMuted
   }
 
   return (
     <>
-      <audio ref={audioRef} src="/music/wedding-theme.mp3" loop preload="none" onEnded={() => setMusicPlaying(false)} />
+      <audio ref={audioRef} src="/music/wedding-theme.mp3" loop preload="none" />
+      <audio ref={nadaRef} src="/music/nadaswaram.mp3" loop preload="none" />
       <div className="ambient-glow" aria-hidden="true" />
       <div className="gold-dust" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ '--i': i, left: `${(i * 37 + 9) % 100}%`, top: `${(i * 23 + 5) % 100}%` } as React.CSSProperties} />)}</div>
 
