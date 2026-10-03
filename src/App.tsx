@@ -92,12 +92,12 @@ function App() {
 
   const fadeTo = (audio: HTMLAudioElement, target: number, ms = 1200) => {
     cancelAnimationFrame(fades.current.get(audio) ?? 0)
-    const from = audio.volume, start = performance.now()
+    const from = Math.max(0, Math.min(1, audio.volume)), safeTarget = Math.max(0, Math.min(1, target)), start = performance.now()
     const step = (now: number) => {
       const k = Math.min(1, (now - start) / ms)
-      audio.volume = from + (target - from) * k
+      audio.volume = Math.max(0, Math.min(1, from + (safeTarget - from) * k))
       if (k < 1) fades.current.set(audio, requestAnimationFrame(step))
-      else if (target === 0) audio.pause()
+      else if (safeTarget === 0) audio.pause()
     }
     fades.current.set(audio, requestAnimationFrame(step))
   }
@@ -245,7 +245,6 @@ function App() {
             <div className="family-lineage"><Reveal className="lineage-card"><span className="eyebrow">SON OF</span><p>Mr. S. Suresh Babu <small>B.A.</small></p><span className="lineage-and">&amp;</span><p>Mrs. S. Umamaheswari <small>M.Com., M.Phil.</small></p></Reveal><Reveal className="lineage-card" delay={.1}><span className="eyebrow">DAUGHTER OF</span><p>Mr. K. Mani</p><span className="lineage-and">&amp;</span><p>Mrs. M. Anusuya</p></Reveal></div>
             <div className="event-panels">
               <Reveal className="reception-panel"><p className="eyebrow">WEDDING</p><h3>Sunday, 15 November 2026</h3><p className="reception-time">9:00 AM onwards</p><OrnamentDivider /><p className="reception-venue"><strong>Shri Senniamman Thiru Koil</strong><br />Senniamman Koil Scheme<br />Block 7, Tondiarpet<br />Chennai – 600 021</p></Reveal>
-              <Reveal className="reception-panel" delay={.12}><p className="eyebrow">RECEPTION</p><h3>Monday, 16 November 2026</h3><p className="reception-time">6:30 PM onwards</p><OrnamentDivider /><p className="reception-venue"><strong>Hyath Mahal</strong><br />196, Prakasam Road<br />Asirvadapuram, George Town<br />Tamil Nadu – 600 108</p></Reveal>
             </div>
             </div>
           </section>
@@ -257,6 +256,13 @@ function App() {
             <Reveal className="page-content"><Flower2 className="message-flower" strokeWidth={.8} /><h2 className="message-title">A Celebration of Love</h2><OrnamentDivider /><p className="section-intro message-text">Your presence, blessings and love will make<br className="desktop-break" /> our special day even more meaningful.</p><Heart className="message-heart" size={18} strokeWidth={1} />
             <div className="message-photo"><video autoPlay muted loop playsInline poster="/videos/reception-poster.jpg" aria-label="Chandru and Sandhiya at their reception, welcomed by family under chandeliers and white flowers"><source media="not all and (min-width: 900px) and (orientation: landscape)" src="/videos/reception.mp4" /></video></div>
             <div className="blessing-family">
+              <div className="reception-panel blessing-reception-panel">
+                <p className="eyebrow">RECEPTION</p>
+                <h3>Monday, 16 November 2026</h3>
+                <p className="reception-time">6:30 PM onwards</p>
+                <OrnamentDivider />
+                <p className="reception-venue"><strong>Hyath Mahal</strong><br />196, Prakasam Road<br />Asirvadapuram, George Town<br />Tamil Nadu – 600 108</p>
+              </div>
               <p className="blessing-welcome">We eagerly await your gracious presence with love.</p>
               <div className="blessing-pairs">{blessingPairs.map(([first, second, note]) => <div className="blessing-pair" key={first}><p>{first}</p><span>&amp;</span><p>{second}</p>{note && <small>{note}</small>}</div>)}</div>
               <div className="blessing-members">{blessingMembers.map((member) => <span key={member}>{member}</span>)}</div>
