@@ -43,7 +43,6 @@ function OrnamentDivider({ className = '' }: { className?: string }) {
 
 function App() {
   const [opened, setOpened] = useState(false)
-  const [gateVisible, setGateVisible] = useState(false)
   const reduceMotion = useReducedMotion()
   const [menuOpen, setMenuOpen] = useState(false)
   const [musicPlaying, setMusicPlaying] = useState(false)
@@ -183,25 +182,11 @@ function App() {
           </motion.div>}
           {filmEnded && <button className="film-replay" type="button" onClick={replayFilm}>WATCH AGAIN</button>}
           {!filmSound && !filmEnded && <button className="film-sound" type="button" onClick={unmuteFilm}><Volume2 size={15} strokeWidth={1.5} /> TAP FOR SOUND</button>}
-          <motion.button className="gold-button opening-button" type="button" onClick={() => { setGateVisible(!reduceMotion); setOpened(true); window.scrollTo(0, 0); startMusic() }} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }}>
+          <motion.button className="gold-button opening-button" type="button" onClick={() => { setOpened(true); window.scrollTo(0, 0); startMusic() }} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }}>
             OPEN INVITATION <ArrowDown size={15} strokeWidth={1.5} />
           </motion.button>
         </motion.section>}
       </AnimatePresence>
-
-      {gateVisible && <div className="gate" aria-hidden="true">
-        <motion.div className="gate-glow" initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 0] }} transition={{ delay: 0.5, duration: 1.9, times: [0, 0.35, 1] }} />
-        {(['left', 'right'] as const).map((side) => (
-          <motion.div
-            key={side}
-            className={`gate-door gate-${side}`}
-            initial={{ rotateY: 0, opacity: 1 }}
-            animate={{ rotateY: side === 'left' ? 96 : -96, opacity: [1, 1, 0] }}
-            transition={{ delay: 0.55, duration: 1.7, ease: [0.65, 0, 0.35, 1], opacity: { delay: 0.55, duration: 1.7, times: [0, 0.7, 1] } }}
-            onAnimationComplete={side === 'right' ? () => setGateVisible(false) : undefined}
-          ><div className="gate-scene" /><span className="gate-handle" /></motion.div>
-        ))}
-      </div>}
 
       {opened && <>
         <header className="site-header">
