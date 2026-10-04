@@ -407,9 +407,9 @@
 /* ---- First screen, wide screens: the couple artwork fills the screen, wording on the right ---- */
 @media (min-width: 900px) and (orientation: landscape) {
   .temple-hero.journey-hero { justify-content: center; align-items: flex-end; padding: 96px clamp(40px, 6vw, 110px) 40px 0; }
-  .journey-couple { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; object-fit: cover; object-position: 0 50%; -webkit-mask-image: none; mask-image: none; }
+  .journey-couple { position: absolute; z-index: -2; inset: 0 0 0 0; width: 100%; height: 100%; margin: 0; padding: 0; object-fit: cover; object-position: 18% 50%; -webkit-mask-image: none; mask-image: none; }
   .journey-hero::before { position: absolute; z-index: -1; inset: 0; content: ''; background: linear-gradient(90deg, transparent 34%, rgba(255, 248, 232, .55) 52%, rgba(255, 248, 232, .88) 66%, rgba(255, 248, 232, .94)), linear-gradient(180deg, rgba(255, 248, 232, .7), transparent 16%); }
-  .journey-hero .hero-copy { width: min(560px, 40vw); }
+  .journey-hero .hero-copy { width: min(560px, 40vw); margin-left: auto; }
   .journey-hero .hero-copy h2 { font-size: clamp(30px, 3.4vw, 50px); }
   .journey-hero .hero-side-note { display: none; }
 }
