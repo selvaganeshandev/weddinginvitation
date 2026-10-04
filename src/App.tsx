@@ -50,7 +50,7 @@ function App() {
   const [musicMessage, setMusicMessage] = useState('')
   const audioRef = useRef<HTMLAudioElement>(null)
   const nadaRef = useRef<HTMLAudioElement>(null)
-  // The reception screen has its own nadaswaram track; the site theme plays everywhere else.
+  // Keep the same wedding song across the opening and reception screens for a consistent feel.
   const [atReception, setAtReception] = useState(false)
   const fades = useRef(new Map<HTMLAudioElement, number>())
   const filmRef = useRef<HTMLVideoElement>(null)
@@ -78,6 +78,12 @@ function App() {
     film.muted = false
     film.volume = 0.7
     film.play().then(() => setFilmSound(true)).catch(() => { film.muted = true })
+    const audio = audioRef.current
+    if (audio && !musicPlaying) {
+      audio.muted = muted
+      audio.volume = MUSIC_VOLUME
+      audio.play().then(() => setMusicPlaying(true)).catch(() => {})
+    }
   }
 
   useEffect(() => {
@@ -158,7 +164,7 @@ function App() {
   return (
     <>
       <audio ref={audioRef} src="/music/wedding-theme.mp3" loop preload="none" />
-      <audio ref={nadaRef} src="/music/nadaswaram.mp3" loop preload="none" />
+      <audio ref={nadaRef} src="/music/wedding-theme.mp3" loop preload="none" />
       <div className="ambient-glow" aria-hidden="true" />
       <div className="gold-dust" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ '--i': i, left: `${(i * 37 + 9) % 100}%`, top: `${(i * 23 + 5) % 100}%` } as React.CSSProperties} />)}</div>
 
