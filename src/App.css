@@ -117,7 +117,7 @@
 .text-link svg { transition: transform .25s; }.text-link:hover svg { transform: translateY(4px); }
 .hero-side-note { position: absolute; top: 50%; right: 35px; color: rgba(212, 175, 55, .68); font: 8px/1 var(--serif); letter-spacing: .18em; writing-mode: vertical-rl; transform: translateY(-50%); }
 .hero-side-note span { padding: 9px 0; }
-.scroll-cue { position: absolute; bottom: 35px; left: 50%; display: grid; justify-items: center; gap: 10px; color: rgba(247, 232, 198, .53); font: 7px/1 var(--serif); letter-spacing: .18em; transform: translateX(-50%); }
+.scroll-cue { position: absolute; bottom: 35px; left: 50%; display: grid; justify-items: center; gap: 10px; color: rgba(247, 232, 198, .53); font: 700 7px/1 var(--serif); letter-spacing: .18em; transform: translateX(-50%); }
 .scroll-cue span { width: 1px; height: 29px; background: linear-gradient(var(--gold), transparent); animation: scroll-pulse 1.9s ease-in-out infinite; }
 @keyframes scroll-pulse { 50% { transform: scaleY(.65); opacity: .48; } }
 .temple-note { position: absolute; right: 16px; bottom: 12px; color: rgba(247, 232, 198, .25); font: 6px/1 var(--serif); letter-spacing: .1em; }
@@ -311,7 +311,8 @@
 .journey-hero .ornament-divider span { background: linear-gradient(90deg, transparent, #b07a1c, transparent); }
 .journey-couple { display: block; width: min(900px, 94vw); margin-top: auto; padding-top: 14px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent), linear-gradient(180deg, transparent, #000 16%, #000 78%, transparent); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent), linear-gradient(180deg, transparent, #000 16%, #000 78%, transparent); mask-composite: intersect; }
 .journey-hero .hero-side-note { color: #8a5a12; }
-.journey-hero .scroll-cue { display: none; }
+.journey-hero .scroll-cue { display: grid; bottom: 20px; color: #8a5a12; opacity: 1; }
+.journey-hero .scroll-cue span { background: linear-gradient(180deg, #8a5a12, transparent); }
 /* The header only sits over the bright hero, so give it a light, warm treatment */
 .site-header { border-bottom-color: rgba(162, 106, 16, .22); background: linear-gradient(180deg, rgba(255, 248, 232, .92), rgba(255, 248, 232, 0)); }
 .site-header .brand-mark, .site-header .header-date { color: #a26a10; }
