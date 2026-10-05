@@ -221,7 +221,10 @@ function App() {
               <source src="/videos/journey.mp4" />
             </motion.video>
             <div className="hero-side-note">A PROMISE OF FOREVER <span>·</span> 15.11.2026</div>
-            <div className="scroll-cue"><span /> SCROLL HERE</div>
+            <a className="scroll-cue" href="#wedding" aria-label="Scroll to the wedding invitation">
+              <span className="scroll-cue-icon" aria-hidden="true"><ArrowDown size={14} strokeWidth={1.5} /></span>
+              <span>SCROLL TO EXPLORE</span>
+            </a>
           </section>
 
           <section className="family-section section-pad has-art" id="wedding">
