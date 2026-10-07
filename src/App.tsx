@@ -230,12 +230,12 @@ function App() {
           <section className="family-section section-pad has-art" id="wedding">
             <div className="page-art" aria-hidden="true">
               {/* only wide screens show this layer, so only they download the wide film */}
-              <video autoPlay muted loop playsInline poster="/videos/wedding-garland-wide-poster.jpg"><source media="(min-width: 900px) and (orientation: landscape)" src="/videos/wedding-garland-wide.mp4" /></video>
+              <video autoPlay muted loop playsInline><source media="(min-width: 900px) and (orientation: landscape)" src="/videos/wedding-section.mp4" /></video>
             </div>
             <div className="page-content">
             <Reveal className="family-heading"><h2>Wedding Invitation,<br /><em><span className="celebrate-line">come to celebrate</span><br />King &amp; Queen.</em></h2><OrnamentDivider /><p className="family-blessing">Seeking the eternal blessings of the late grandparents of the Groom.</p></Reveal>
             <Reveal className="family-couple"><h3>Selvan S. Chandra Sekaran <span>B.E.</span></h3><span className="family-weds">weds</span><h3>Selvi M. Sandhiya <span>B.Sc., M.A.</span></h3></Reveal>
-            <Reveal className="family-photo"><video autoPlay muted loop playsInline poster="/videos/wedding-garland-poster.jpg" aria-label="Chandru and Sandhiya seated together in the decorated wedding mandapam"><source media="not all and (min-width: 900px) and (orientation: landscape)" src="/videos/wedding-garland.mp4" /></video></Reveal>
+            <Reveal className="family-photo"><video autoPlay muted loop playsInline aria-label="Wedding invitation video featuring the couple"><source media="not all and (min-width: 900px) and (orientation: landscape)" src="/videos/wedding-section.mp4" /></video></Reveal>
             <div className="family-lineage"><Reveal className="lineage-card"><span className="eyebrow">SON OF</span><p>Mr. S. Suresh Babu <small>B.A.</small></p><span className="lineage-and">&amp;</span><p>Mrs. S. Umamaheswari <small>M.Com., M.Phil.</small></p></Reveal><Reveal className="lineage-card" delay={.1}><span className="eyebrow">DAUGHTER OF</span><p>Mr. K. Mani</p><span className="lineage-and">&amp;</span><p>Mrs. M. Anusuya</p></Reveal></div>
             <div className="event-panels">
               <Reveal className="reception-panel"><p className="eyebrow">WEDDING</p><h3>Sunday, 15 November 2026</h3><p className="reception-time">9:00 AM onwards</p><OrnamentDivider /><p className="reception-venue"><strong>Shri Senniamman Thiru Koil</strong><br />Senniamman Koil Scheme<br />Block 7, Tondiarpet<br />Chennai – 600 021</p></Reveal>
