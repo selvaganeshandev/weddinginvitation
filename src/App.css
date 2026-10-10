@@ -160,6 +160,10 @@
 .message-section { position: relative; display: grid; min-height: 510px; place-items: center; overflow: hidden; background: radial-gradient(ellipse at 50% 47%, rgba(114, 78, 22, .12), transparent 53%), #0b0b0b; text-align: center; }
 .gathering-section { position: relative; min-height: 100svh; overflow: hidden; background: #080807; }
 .gathering-section video { display: block; width: 100%; height: 100svh; object-fit: cover; object-position: center; }
+@media (max-width: 899px) {
+  .gathering-section { display: grid; place-items: center; }
+  .gathering-section video { width: 100%; height: auto; max-height: 100svh; aspect-ratio: 16 / 9; object-fit: contain; }
+}
 .message-section > div { position: relative; }
 .message-flower { width: 33px; height: 33px; margin-bottom: 18px; color: var(--gold); opacity: .78; }
 .message-section h2 { margin-top: 20px; font-size: clamp(31px, 4.4vw, 48px); }
