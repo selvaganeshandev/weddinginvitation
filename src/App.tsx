@@ -223,7 +223,7 @@ function App() {
             <div className="hero-side-note">A PROMISE OF FOREVER <span>·</span> 15.11.2026</div>
             <a className="scroll-cue" href="#wedding" aria-label="Scroll to the wedding invitation">
               <span className="scroll-cue-icon" aria-hidden="true"><ArrowDown size={14} strokeWidth={1.5} /></span>
-              <span>SCROLL TO EXPLORE</span>
+              <span>SCROLL</span>
             </a>
           </section>
 
@@ -263,6 +263,11 @@ function App() {
             </div>
           </Reveal></section>
 
+          <section className="gathering-section" aria-label="Wedding guests celebrating together">
+            <video autoPlay muted loop playsInline preload="metadata" aria-label="People standing together and smiling at the wedding celebration">
+              <source src="/videos/reception-gathering.mp4" />
+            </video>
+          </section>
 
         </main>
 
