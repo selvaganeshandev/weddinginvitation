@@ -188,7 +188,14 @@ function App() {
           </motion.div>}
           {filmEnded && <button className="film-replay" type="button" onClick={replayFilm}>WATCH AGAIN</button>}
           {!filmSound && !filmEnded && <button className="film-sound" type="button" onClick={unmuteFilm}><Volume2 size={15} strokeWidth={1.5} /> TAP FOR SOUND</button>}
-          <motion.button className="gold-button opening-button" type="button" onClick={() => { setOpened(true); window.scrollTo(0, 0); startMusic() }} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }}>
+          <motion.button className="gold-button opening-button" type="button" onClick={() => {
+            setOpened(true)
+            requestAnimationFrame(() => {
+              const target = document.getElementById('gathering')
+              target?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
+            })
+            startMusic()
+          }} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }}>
             OPEN INVITATION <ArrowDown size={15} strokeWidth={1.5} />
           </motion.button>
         </motion.section>}
@@ -243,7 +250,7 @@ function App() {
             </div>
           </section>
 
-          <section className="message-section section-pad has-art">
+          <section className="message-section section-pad has-art" id="message">
             <div className="page-art" aria-hidden="true">
               <video autoPlay muted loop playsInline poster="/videos/reception-wide-poster.jpg"><source media="(min-width: 900px) and (orientation: landscape)" src="/videos/reception-wide.mp4" /></video>
             </div>
@@ -263,9 +270,9 @@ function App() {
             </div>
           </Reveal></section>
 
-          <section className="gathering-section" aria-label="Wedding guests celebrating together">
-            <video autoPlay muted loop playsInline preload="metadata" aria-label="People standing together and smiling at the wedding celebration">
-              <source src="/videos/reception-gathering.mp4" />
+          <section className="gathering-section" id="gathering" aria-label="Wedding family surrounded by floating flower petals">
+            <video autoPlay muted loop playsInline preload="metadata" aria-label="Flower petals floating around the wedding family">
+              <source src="/videos/flower-petals-family.mp4" />
             </video>
           </section>
 
