@@ -191,7 +191,7 @@ function App() {
           <motion.button className="gold-button opening-button" type="button" onClick={() => {
             setOpened(true)
             requestAnimationFrame(() => {
-              const target = document.getElementById('gathering')
+              const target = document.getElementById('home')
               target?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
             })
             startMusic()
